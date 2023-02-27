@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Color Picker</title>
+</head>
+<body>
+    <input type="color" id="colorpicker" value="{{ selected_color }}" />
+    <script src="//cdnjs.cloudflare.com/ajax/libs/socket.io/4.4.1/socket.io.min.js"></script>
+    <script type="text/javascript">
+        var socket = io.connect();
+        var colorpicker = document.getElementById('colorpicker');
+        colorpicker.addEventListener('change', function() {
+            var color = colorpicker.value;
+            socket.emit('color selected', color);
+        });
+        socket.on('color updated', function(color) {
+            colorpicker.value = color;
+            document.body.style.backgroundColor = color;
+        });
+    </script>
+</body>
+</html>
